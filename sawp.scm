@@ -19,13 +19,17 @@
 (define-page (main-page-path)
   (lambda ()
 	(let* ((request-parameters (read-urlencoded-request-data (current-request)))
-		   (request-url (cdr (assq 'url request-parameters))))
+		   (request-url (cdr (assq 'url request-parameters)))
+		   (scrape-request (make-request uri: request-url))
+		   (scrape-response #f))
+	  (write-request scrape-request)
+	  (set! scrape-response
+			(read-response (request-port scrape-request)))
+
 	  (<div>
 	   (scraper-controls)
 	   (<div>
 		(<hr>)
-		(<iframe> src: request-url
-				  width: "75%"
-				  style: "margin-left: 10%")))))
+		(<code> (with-output-to-string (lambda () (write scrape-response))))))))
   method: '(POST))
 
