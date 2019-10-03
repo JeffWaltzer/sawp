@@ -5,25 +5,27 @@
 
 (generate-sxml? #t)
 
+(define (scraper-controls)
+  (<form> method: "POST"
+		  (<input> name: "url" type: "text")
+		  (<input> name: "submit" type: "submit")))
+
 (define-page (main-page-path)
   (lambda ()
-	(let ((request-parameters #f))
+	(scraper-controls))
+  method: '(GET HEAD))
 
-	  (if (eq? 'POST (request-method (current-request)))
-		  (set! request-parameters
-				(read-urlencoded-request-data (current-request))))
 
+(define-page (main-page-path)
+  (lambda ()
+	(let* ((request-parameters (read-urlencoded-request-data (current-request)))
+		   (request-url (cdr (assq 'url request-parameters))))
 	  (<div>
-	   (<form> method: "POST"
-			   (<input> name: "url" type: "text")
-			   (<input> name: "submit" type: "submit"))
-
-	   (if request-parameters
-		   (<div>
-			(<hr>)
-			(<iframe> src: (cdr (assq 'url request-parameters))
-					  width: "75%"
-					  style: "margin-left: 10%"))
-		   ""))))
-  method: '(GET HEAD POST))
+	   (scraper-controls)
+	   (<div>
+		(<hr>)
+		(<iframe> src: request-url
+				  width: "75%"
+				  style: "margin-left: 10%")))))
+  method: '(POST))
 
