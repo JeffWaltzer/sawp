@@ -1,5 +1,6 @@
 (use awful)
 (use html-tags)
+(use http-client)
 (use intarweb)
 (use spiffy)
 
@@ -18,18 +19,14 @@
 
 (define-page (main-page-path)
   (lambda ()
-	(let* ((request-parameters (read-urlencoded-request-data (current-request)))
-		   (request-url (cdr (assq 'url request-parameters)))
-		   (scrape-request (make-request uri: request-url))
-		   (scrape-response #f))
-	  (write-request scrape-request)
-	  (set! scrape-response
-			(read-response (request-port scrape-request)))
-
+	(let* ((request-url ($ 'url))
+		   (response (with-input-from-request request-url
+											  #f
+											  read-string)))
 	  (<div>
 	   (scraper-controls)
 	   (<div>
 		(<hr>)
-		(<code> (with-output-to-string (lambda () (write scrape-response))))))))
+		(<code> response)))))
   method: '(POST))
 
