@@ -1,18 +1,9 @@
-(declare (uses scraper))
 (use awful html-tags http-client)
 
+(declare (uses scraper))
+(declare (uses templates))
+
 (generate-sxml? #t)
-
-(define (<scraper-controls>)
-  (<form> method: "POST"
-		  (<input> name: "url" type: "text")
-		  (<input> name: "submit" type: "submit")))
-
-(define (<scrape-results> response-body)
-  `(,(<scraper-controls> )
-	,(<hr>)
-	,(<code> response-body)))
-
 
 (define-page (main-page-path)
   <scraper-controls>

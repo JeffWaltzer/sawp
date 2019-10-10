@@ -1,9 +1,9 @@
-SRCS=sawp.scm scraper.scm
+SRCS=scraper.scm templates.scm sawp.scm 
 OBJS=$(subst .scm,.o,$(SRCS))
 
 AWFUL_FLAGS=--development-mode
 
-.PHONY : run run-compiled clean
+.PHONY : run compile run-compiled clean
 
 %.o : %.scm
 	csc -shared -c $^
@@ -11,8 +11,11 @@ AWFUL_FLAGS=--development-mode
 run :
 	awful $(AWFUL_FLAGS) $(SRCS)
 
-run-compiled : sawp.so
+run-compiled : compile
 	awful $(AWFUL_FLAGS) sawp.so
+
+compile : sawp.so
+
 
 sawp.so : $(OBJS)
 	csc -shared -o $@ $^
