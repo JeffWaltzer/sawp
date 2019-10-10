@@ -1,32 +1,26 @@
-(use awful)
-(use html-tags)
-(use http-client)
-(use intarweb)
-(use spiffy)
+(use awful html-tags http-client)
 
 (generate-sxml? #t)
 
-(define (scraper-controls)
+(define (<scraper-controls>)
   (<form> method: "POST"
 		  (<input> name: "url" type: "text")
 		  (<input> name: "submit" type: "submit")))
 
+(define (<scrape-results> url)
+  (let ((response-body #f))
+	(set! response-body
+		  (with-input-from-request url #f read-string))
+	`(,(<scraper-controls> )
+	  ,(<hr>)
+	  ,(<code> response-body))))
+
+
 (define-page (main-page-path)
-  (lambda ()
-	(scraper-controls))
+  <scraper-controls>
   method: '(GET HEAD))
 
-
 (define-page (main-page-path)
-  (lambda ()
-	(let* ((request-url ($ 'url))
-		   (response (with-input-from-request request-url
-											  #f
-											  read-string)))
-	  (<div>
-	   (scraper-controls)
-	   (<div>
-		(<hr>)
-		(<code> response)))))
+  (lambda ()	(<scrape-results> ($ 'url)))
   method: '(POST))
 
