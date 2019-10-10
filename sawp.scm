@@ -1,6 +1,5 @@
+(declare (uses scraper))
 (use awful html-tags http-client)
-
-(load "scraper")
 
 (generate-sxml? #t)
 
