@@ -1,5 +1,4 @@
 (use awful html-tags http-client)
-
 (declare (uses scraper))
 (declare (uses templates))
 
