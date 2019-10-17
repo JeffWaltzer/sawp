@@ -10,4 +10,4 @@
 	(<scrape-results> (scrape ($ 'url))))
   method: '(POST))
 
-(awful-start (lambda () #t))
+(awful-start (lambda () #t)  dev-mode?: #t)
