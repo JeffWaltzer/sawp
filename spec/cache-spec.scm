@@ -11,6 +11,11 @@
   (test passed-url "http://something.invalid" )
 )
 
+(test-group "save time of caching"
+  (scrape "http://something.invalid")
+  (test (current-time) (cached-time passed-url) )
+)
+
 (test-group "scraping a page which is in the cache"
   (scrape "http://something.invalid")
   (set! passed-url #f)

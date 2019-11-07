@@ -4,6 +4,8 @@
 (define cache '()
 )
 
+(define (cached-time url) 10000)
+
 (define (scrape url)
   (or (alist-ref url cache string=?)
     (let ((fetched-copy
