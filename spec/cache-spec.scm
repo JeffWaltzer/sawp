@@ -1,9 +1,20 @@
-(use missbehave http-client)
+(use test http-client)
 (declare (uses scraper templates))
 
-(printf "scrape: ~A~%" scrape)
+(define passed-url #f)
 
-(describe "scraping a page which is not in the cache"
-  (it "calls with-input-from-request"
-    (expect (scrape "http://something.invalid")
-			(call with-input-from-request once))))
+(define (with-input-from-request url the-boolean read-procedure)
+  (set! passed-url url))
+
+(test-group "scraping a page which is not in the cache"
+  (scrape "http://something.invalid")
+  (test passed-url "http://something.invalid" )
+)
+
+(test-group "scraping a page which is in the cache"
+  (scrape "http://something.invalid")
+  (set! passed-url #f)
+  (scrape "http://something.invalid")
+  (test #f passed-url  )
+)
+(exit)
