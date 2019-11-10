@@ -7,7 +7,7 @@ o/%.o:src/%.scm
 	csc -c $< -o $@
 
 test:
-	behave --nocolor src/scraper.scm spec/*spec.scm
+	behave --nocolor spec/*spec.scm
 
 sawp: $(addprefix o/,$(OBJS))
 	csc -o $@ $^
