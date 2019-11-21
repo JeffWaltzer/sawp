@@ -5,6 +5,7 @@
 
 (describe "scraping a page which is not in the cache"
   (before #:each
+	(clear-page-cache)
 	(stub! with-input-from-request (lambda (url junk reader) "")))
   (after #:each
 	(clear-stubs!))
@@ -40,5 +41,19 @@
 ;;   (scrape "http://something.invalid")
 ;;   (test (current-time) (cached-time passed-url) )
 ;; )
+(describe "save time of caching"
+  (define passed-url "http://something.invalid")
+
+  (before #:each
+	(stub! with-input-from-request (lambda (url junk reader) ""))
+	(stub! current-time (lambda () 1))
+	(scrape "http://something.invalid"))
+
+  (after #:each
+	(clear-stubs!))
+
+  (it "saves the fetch time" 
+	(expect(cached-time passed-url)
+		   (be (current-time)))))
 
 
