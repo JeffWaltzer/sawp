@@ -11,7 +11,7 @@
     (let ((fetched-copy
             (with-input-from-request url #f read-string)))
       (set! cache (alist-update url fetched-copy cache string=?))
-      fetched-copy
-    )
-  )
-)
+      fetched-copy)))
+
+(define (clear-page-cache)
+  (set! cache '()))

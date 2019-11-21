@@ -1,25 +1,44 @@
-(use test http-client)
+(use missbehave missbehave-stubs http-client)
+(load "src/scraper")
 (declare (uses scraper templates))
 
-(define passed-url #f)
 
-(define (with-input-from-request url the-boolean read-procedure)
-  (set! passed-url url))
+(describe "scraping a page which is not in the cache"
+  (before #:each
+	(stub! with-input-from-request (lambda (url junk reader) "")))
+  (after #:each
+	(clear-stubs!))
 
-(test-group "scraping a page which is not in the cache"
-  (scrape "http://something.invalid")
-  (test passed-url "http://something.invalid" )
-)
+  (it "scrapes the url"
+	(expect ((lambda () (scrape "http://something.invalid")))
+			(call with-input-from-request
+				  (with "http://something.invalid" #f read-string)
+				  once))))
 
-(test-group "save time of caching"
-  (scrape "http://something.invalid")
-  (test (current-time) (cached-time passed-url) )
-)
+(describe "scraping a page which is in the cache"
+  (before #:each
+	(stub! with-input-from-request (lambda (url junk reader) "")))
 
-(test-group "scraping a page which is in the cache"
-  (scrape "http://something.invalid")
-  (set! passed-url #f)
-  (scrape "http://something.invalid")
-  (test #f passed-url  )
-)
-(exit)
+  (after #:each
+	(clear-stubs!))
+
+  (after #:each
+	(clear-page-cache))
+
+  (describe "foo"
+	(before #:each
+	  (scrape "http://something.invalid")
+	  (set! passed-url #f))
+
+	(it "doesn't do a HTTP request"
+	  (expect ((lambda () (scrape "http://something.invalid")))
+			  (call with-input-from-request never)))))
+
+
+;; PENDING
+;; (test-group "save time of caching"
+;;   (scrape "http://something.invalid")
+;;   (test (current-time) (cached-time passed-url) )
+;; )
+
+
