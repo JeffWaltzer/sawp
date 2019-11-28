@@ -14,30 +14,28 @@
 
   (describe "which is not in the cache"
 
-	(it "scrapes the url"
+		(it "does a HTTP request"
 	  (expect ((lambda () (scrape "http://something.invalid")))
 			  (call with-input-from-request
 					(with "http://something.invalid" #f read-string)
 					once))))
 
-  (describe "scraping a page which is in the cache"
-	(describe "foo"
+	(describe "which is in the cache"
 	  (before #:each
 		(scrape "http://something.invalid"))
 
-	  (it "doesn't do a HTTP request"
-		(expect ((lambda () (scrape "http://something.invalid")))
-				(call with-input-from-request never)))))
+		(it "doesn't do a HTTP request"
+			(expect ((lambda () (scrape "http://something.invalid")))
+				(call with-input-from-request never))))
 
-  (describe "save time of caching"
-	(define passed-url "http://something.invalid")
+  (describe "when caching"
+		(define passed-url "http://something.invalid")
 
-	(before #:each
-	  (stub! current-time (lambda () 1))
-	  (scrape "http://something.invalid"))
+		(before #:each
+			(stub! current-time (lambda () 1))
+			(scrape "http://something.invalid"))
 
-	(it "saves the fetch time" 
-	  (expect(cached-time passed-url)
-			 (be (current-time))))))
-
+		(it "saves the fetch time"
+			(expect (cached-time passed-url)
+				(be (current-time))))))
 

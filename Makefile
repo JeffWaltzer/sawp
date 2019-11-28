@@ -7,7 +7,7 @@ o/%.o:src/%.scm
 	csc -c $< -o $@
 
 test:
-	csi src/scraper.scm spec/cache-spec.scm
+	behave spec/*spec.scm
 
 sawp: $(addprefix o/,$(OBJS))
 	csc -o $@ $^
