@@ -3,6 +3,7 @@
 (declare (uses scraper templates))
 
 (describe "scraping a page"
+  (define passed-url "http://something.invalid")
   (before #:each
     (clear-page-cache)
     (stub! with-input-from-request (lambda (url junk reader) "")))
@@ -13,24 +14,23 @@
 
   (describe "which is not in the cache"
     (it "saves the fetch time"
-      (define passed-url "http://something.invalid")
       (stub! current-time (lambda () 1))
-      (scrape "http://something.invalid")
+      (scrape passed-url)
       (expect (cached-time passed-url)
         (be (current-time))))
 
     (it "does a HTTP request"
-      (expect ((lambda () (scrape "http://something.invalid")))
+      (expect ((lambda () (scrape passed-url)))
         (call with-input-from-request
-          (with "http://something.invalid" #f read-string)
+          (with passed-url #f read-string)
           once))))
 
   (describe "which is in the cache"
     (before #:each
-      (scrape "http://something.invalid"))
+      (scrape passed-url))
 
     (it "doesn't do a HTTP request"
-      (expect ((lambda () (scrape "http://something.invalid")))
+      (expect ((lambda () (scrape passed-url)))
         (call with-input-from-request never))))
 
 )
