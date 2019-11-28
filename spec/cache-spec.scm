@@ -13,6 +13,8 @@
     (clear-stubs!))
 
   (describe "which is not in the cache"
+    (it "saves the page body")
+
     (it "saves the fetch time"
       (stub! current-time (lambda () 1))
       (scrape passed-url)
