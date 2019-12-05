@@ -10,6 +10,8 @@
 (define (cached-time url)
   (alist-ref url time-cache string=?))
 
+(define (cached-page url)
+  (alist-ref url page-cache string=?))
 
 ;; ToDo: finish cleaning this up.
 (define (update-cache url page time)
