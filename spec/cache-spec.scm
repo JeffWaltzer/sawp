@@ -12,29 +12,27 @@
     (clear-stubs!))
 
   (describe "which is not in the cache"
-    (it "saves the page body"
-      (stub! with-input-from-request (lambda (url junk reader)
-                                       "some fake body"))
-      (scrape passed-url)
-
-      (expect (cached-page passed-url)
-        (be "some fake body")))
-
-    (it "saves the fetch time"
+	(before #:each
       (stub! with-input-from-request (lambda (url junk reader)
                                        "some fake body"))
       (stub! current-time (lambda () (seconds->time 10000)))
-      (scrape passed-url)
+
+      (scrape passed-url))
+
+    (it "saves the page body"
+      (expect (cached-page passed-url)
+			  (be "some fake body")))
+
+    (it "saves the fetch time"
       (expect (cached-time passed-url)
-        (be (current-time))))
+			  (be (current-time))))
 
     (it "does a HTTP request"
-      (stub! with-input-from-request (lambda (url junk reader)
-                                       "some fake body"))
-      (expect ((lambda () (scrape passed-url)))
-        (call with-input-from-request
-          (with passed-url #f read-string)
-          once))))
+	  (clear-page-cache)
+	  (expect (scrape passed-url)
+			  (call with-input-from-request
+					(with passed-url #f read-string)
+					once))))
 
   (describe "which is in the cache and not expired"
     (before #:each
@@ -42,18 +40,18 @@
 
     (it "doesn't do a HTTP request"
       (expect ((lambda () (scrape passed-url)))
-        (call with-input-from-request never))))
+			  (call with-input-from-request never))))
 
   (describe "which is in the cache but expired"
-    (define cache-timeout 3600)
+    (define expected-cache-timeout 3600)
 
     (before #:each
       (update-cache "a-url"
-        "page body"
-        (seconds->time (- (time->seconds (current-time))
-                         (+ 1 cache-timeout)))))
+					"page body"
+					(seconds->time (- (time->seconds (current-time))
+									  (+ 1 expected-cache-timeout)))))
     (it "does a new HTTP request"
-      (expect ((lambda () (scrape "a-url")))
-        (call with-input-from-request
-          (with "a-url" #f read-string)
-          once)))))
+      (expect (scrape "a-url")
+			  (call with-input-from-request
+					(with "a-url" #f read-string)
+					once)))))
