@@ -3,28 +3,27 @@
 
 
 (define-record cache-entry time page)
-(define new-cache '())
+(define cache '())
 
+
+(define (clear-page-cache)
+  (set! cache '()))
+
+(define (cache-data url accessor)
+  (let ((cache-entry (alist-ref url cache string=?)))
+	(and cache-entry (accessor cache-entry))))
 
 (define (cached-time url)
-  (let ((cache-entry (alist-ref url new-cache string=?)))
-	(and cache-entry (cache-entry-time cache-entry))))
+  (cache-data url cache-entry-time))
 
 (define (cached-page url)
-  (let ((cache-entry (alist-ref url new-cache string=?)))
-	(and cache-entry (cache-entry-page cache-entry))))
+  (cache-data url cache-entry-page))
 
-;; ToDo: finish cleaning this up.
 (define (update-cache url page time)
-  (define (update-cache-alist alist x)
-    (alist-update url x alist string=?))
-
-  (define-syntax my-update
-    (syntax-rules ()
-      ((_ alist value)
-        (set! alist (update-cache-alist alist value)))))
-
-  (my-update new-cache (make-cache-entry time page)))
+  (set! cache
+	(alist-update url
+				  (make-cache-entry time page)
+				  cache)))
 
 (define cache-staleness-time 3600)
 
@@ -45,6 +44,3 @@
               (with-input-from-request url #f read-string)))
         (update-cache url fetched-copy (current-time))
         fetched-copy))))
-
-(define (clear-page-cache)
-  (set! new-cache '()))
