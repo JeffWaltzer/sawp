@@ -1,17 +1,18 @@
 (declare (unit scraper))
 (use http-client)
 
-(define page-cache '()
-)
 
-(define time-cache '()
-)
+(define-record cache-entry time page)
+(define new-cache '())
+
 
 (define (cached-time url)
-  (alist-ref url time-cache string=?))
+  (let ((cache-entry (alist-ref url new-cache string=?)))
+	(and cache-entry (cache-entry-time cache-entry))))
 
 (define (cached-page url)
-  (alist-ref url page-cache string=?))
+  (let ((cache-entry (alist-ref url new-cache string=?)))
+	(and cache-entry (cache-entry-page cache-entry))))
 
 ;; ToDo: finish cleaning this up.
 (define (update-cache url page time)
@@ -23,8 +24,7 @@
       ((_ alist value)
         (set! alist (update-cache-alist alist value)))))
 
-  (my-update page-cache page)
-  (my-update time-cache time))
+  (my-update new-cache (make-cache-entry time page)))
 
 (define cache-staleness-time 3600)
 
@@ -47,6 +47,4 @@
         fetched-copy))))
 
 (define (clear-page-cache)
-  (set! page-cache '())
-  (set! time-cache '())
-)
+  (set! new-cache '()))
