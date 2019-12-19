@@ -1,6 +1,6 @@
 .PHONY : test
 
-SRCS=sawp.scm templates.scm scraper.scm
+SRCS=cache.scm sawp.scm scraper.scm templates.scm
 OBJS=$(addsuffix .o,$(basename $(SRCS)))
 
 o/%.o:src/%.scm
@@ -8,6 +8,9 @@ o/%.o:src/%.scm
 
 test:
 	behave spec/*spec.scm
+
+clean:
+	rm sawp o/*
 
 sawp: $(addprefix o/,$(OBJS))
 	csc -o $@ $^

@@ -1,5 +1,6 @@
 (use missbehave missbehave-stubs http-client)
 (load "src/scraper")
+(load "src/cache")
 (declare (uses scraper templates))
 
 (define expected-page-body (make-parameter "some fake body"))
