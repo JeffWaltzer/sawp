@@ -3,7 +3,6 @@
 (define-record cache-entry time page)
 (define cache '())
 
-
 (define (clear-page-cache)
   (set! cache '()))
 
