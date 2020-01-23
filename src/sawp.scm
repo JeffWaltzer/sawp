@@ -7,7 +7,7 @@
 
 (define-page (main-page-path)
   (lambda ()
-	(<scrape-results> (scrape ($ 'url))))
+	(<scrape-results> (scrape-element ($ 'url) ($ 'xpath))))
   method: '(POST))
 
 (awful-start (lambda () #t)  dev-mode?: #t)
