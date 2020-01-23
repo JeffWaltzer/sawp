@@ -5,10 +5,9 @@
 (use http-client)
 
 (define (scrape-n-cache url)
-  (let ((fetched-copy
-		 (with-input-from-request url #f read-string)))
-	(update-cache url fetched-copy (current-time))
-	fetched-copy))
+  (update-cache url
+				(with-input-from-request url #f read-string)
+				(current-time)))
 
 (define (scrape url)
   (if (cache-fresh url)
@@ -16,6 +15,5 @@
       (scrape-n-cache url)))
 
 (define (scrape-element url xpath)
-  (cadar
-  ((txpath xpath)
-   (html->sxml (scrape url)))))
+  (cadar ((txpath xpath)
+		  (html->sxml (scrape url)))))

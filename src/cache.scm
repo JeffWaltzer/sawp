@@ -20,14 +20,18 @@
   (set! cache
 	(alist-update url
 				  (make-cache-entry time page)
-				  cache)))
+				  cache))
+  page)
 
 (define cache-staleness-time 3600)
+
+(define (cache-age url)
+  (-
+   (time->seconds (current-time))
+   (time->seconds (cached-time url))))
 
 (define (cache-fresh url)
   (and
     (cached-time url)
-    (<= (-
-          (time->seconds (current-time))
-          (time->seconds (cached-time url)))
-      cache-staleness-time)))
+    (<= (cache-age url)
+		cache-staleness-time)))

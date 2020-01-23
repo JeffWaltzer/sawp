@@ -1,5 +1,6 @@
 (use html-tags)
 (declare (unit templates))
+
 (generate-sxml? #t)
 
 (define (<scraper-controls>)
