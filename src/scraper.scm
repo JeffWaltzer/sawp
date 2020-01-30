@@ -6,14 +6,18 @@
 
 (define (scrape-n-cache url)
   (update-cache url
-				(with-input-from-request url #f read-string)
-				(current-time)))
+    (with-input-from-request url #f read-string)
+    (current-time)))
 
 (define (scrape url)
   (if (cache-fresh url)
-      (cached-page url)
-      (scrape-n-cache url)))
+    (cached-page url)
+    (scrape-n-cache url)))
 
-(define (scrape-element url xpath)
-  (cadar ((txpath xpath)
-		  (html->sxml (scrape url)))))
+(define (scrape-element url xpath regex)
+  (irregex-match-substring
+    (irregex-search
+      (irregex regex)
+      (cadar ((txpath xpath)
+               (html->sxml (scrape url)))))
+    1))

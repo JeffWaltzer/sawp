@@ -5,15 +5,18 @@
 
 (define (<scraper-controls>)
   (<form> method: "POST"
-	(<label> "URL: ")
+    (<label> "URL: ")
     (<input> name: "url" type: "text")
-	(<br>)
-	(<label> "XPath: ")
+    (<br>)
+    (<label> "XPath: ")
     (<input> name: "xpath" type: "text")
-	(<br>)
+    (<br>)
+    (<label> "Regex: ")
+    (<input> name: "regex" type: "text")
+    (<br>)
     (<input> name: "submit" type: "submit")))
 
 (define (<scrape-results> response-body)
-    `(,(<scraper-controls> )
+    `(,(<scraper-controls>)
        ,(<hr>)
        ,(<code> response-body)))
