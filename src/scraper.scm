@@ -14,11 +14,11 @@
     (cached-page url)
     (scrape-n-cache url)))
 
-(define (extract_by-xpath html-text xpath)
+(define (extract-by-xpath html-text xpath)
   (cadar ((txpath xpath)
            (html->sxml html-text))))
 
-(define (extract_by-regex text regex)
+(define (extract-by-regex text regex)
   (irregex-match-substring
     (irregex-search
       (irregex regex)
@@ -26,8 +26,8 @@
     1))
 
 (define (scrape-element url xpath regex)
-  (extract_by-regex
-    (extract_by-xpath
+  (extract-by-regex
+    (extract-by-xpath
       (scrape url)
       xpath)
     regex))

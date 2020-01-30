@@ -7,15 +7,36 @@
   (define passed-regex "\\[(.*)\\]")
 
   (define (scrape-stub url)
-	"<html><head></head><body><joe>[joe-stuff]</joe></body></html>")
+    "<html><head></head><body><joe>[joe-stuff]</joe></body></html>")
 
   (before #:each
-	(stub! scrape scrape-stub))
+    (stub! scrape scrape-stub))
 
   (after #:each
-	(clear-stubs!))
+    (clear-stubs!))
 
   (it "returns the requested text"
-	(expect
-	 (scrape-element passed-url passed-xpath passed-regex)
-	 (be "joe-stuff"))))
+    (expect
+      (scrape-element passed-url passed-xpath passed-regex)
+      (be "joe-stuff"))))
+
+(describe "extract data by regex"
+  (define passed-regex "\\[(.*)\\]")
+
+  (define text
+    "[joe-stuff]")
+
+  (it "returns the requested text"
+    (expect
+      (extract-by-regex text passed-regex)
+      (be "joe-stuff"))))
+
+(describe "extract data by xpath"
+  (define xpath "//joe")
+  (define html-text
+    "<html><head></head><body><joe>joe-stuff</joe></body></html>")
+
+  (it "returns the requested text"
+    (expect
+      (extract-by-xpath html-text xpath)
+      (be "joe-stuff"))))
