@@ -9,6 +9,9 @@ o/%.o:src/%.scm
 test:
 	behave spec/*spec.scm
 
+run: sawp
+	./sawp
+
 clean:
 	rm sawp o/*
 
