@@ -4,7 +4,7 @@
 (describe "scraping the contents of an html/xml element specified by xpath and regex"
   (define passed-url "junk")
   (define passed-xpath "//joe")
-  (define passed-regex "\\\[(.*)\\\]")
+  (define passed-regex "\\[(.*)\\]")
 
   (define (scrape-stub url)
 	"<html><head></head><body><joe>[joe-stuff]</joe></body></html>")

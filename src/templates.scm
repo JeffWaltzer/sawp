@@ -7,12 +7,15 @@
   (<form> method: "POST"
     (<label> "URL: ")
     (<input> name: "url" type: "text")
+
     (<br>)
     (<label> "XPath: ")
     (<input> name: "xpath" type: "text")
+
     (<br>)
     (<label> "Regex: ")
     (<input> name: "regex" type: "text")
+
     (<br>)
     (<input> name: "submit" type: "submit")))
 
