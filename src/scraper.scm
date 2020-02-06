@@ -1,4 +1,5 @@
 (use html-parser)
+(use json)
 (use txpath)
 (declare (unit scraper))
 (declare (uses cache))
@@ -24,6 +25,23 @@
       (irregex regex)
       text)
     1))
+
+(define (extract-by-json keys json-string)
+  (define (inner-extract-by-json keys json)
+	(if (null? keys)
+		json
+		(let ((key (car keys)))
+		  (cond ((symbol? key)
+				 (inner-extract-by-json (cdr keys)
+									 (alist-ref (symbol->string key)
+												(vector->list json)
+												string=?)))
+				((number? key)
+				 (inner-extract-by-json (cdr keys)
+										(list-ref json key)))))))
+
+  (inner-extract-by-json keys
+						 (call-with-input-string json-string json-read)))
 
 (define (scrape-element url xpath regex)
   (extract-by-regex
