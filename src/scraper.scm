@@ -28,17 +28,20 @@
 
 (define (extract-by-json keys json-string)
   (define (inner-extract-by-json keys json)
+	(define (object-ref key object)
+	  (alist-ref (symbol->string key)
+				 (vector->list object)
+				 string=?))
+
+	(define (ref key json)
+	  (cond ((symbol? key)  (object-ref key json))
+			((number? key)  (list-ref json key))))
+
 	(if (null? keys)
 		json
-		(let ((key (car keys)))
-		  (cond ((symbol? key)
-				 (inner-extract-by-json (cdr keys)
-									 (alist-ref (symbol->string key)
-												(vector->list json)
-												string=?)))
-				((number? key)
-				 (inner-extract-by-json (cdr keys)
-										(list-ref json key)))))))
+		(inner-extract-by-json
+		 (cdr keys)
+		 (ref (car keys) json))))
 
   (inner-extract-by-json keys
 						 (call-with-input-string json-string json-read)))
