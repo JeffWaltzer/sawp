@@ -21,7 +21,7 @@
       (be "joe-stuff"))))
 
 
-(describe "extract data from JSON"
+(describe "extract data from a JSON object"
   (define passed-json "{\"the-key\" : \"the-data\"}")
 
   (define expected-value "the-data")
@@ -31,16 +31,22 @@
       (extract-by-json '(the-key) passed-json)
       (be "the-data"))))
 
+(describe "return #f if key is missing from a JSON object"
+  (define passed-json "{\"the-key\" : \"the-data\"}")
 
-(describe "extract data from different JSON"
-  (define passed-json "{\"another-key\": \"some-more-data\"}")
-
-  (define expected-value "some-more-data")
-
-  (it "returns the expected text"
+  (it "returns #f"
     (expect
-      (extract-by-json '(another-key) passed-json)
-      (be "some-more-data"))))
+      (extract-by-json '(wrong-key) passed-json)
+      (be #f))))
+
+(describe "return #f if index is out of bounds for a JSON array"
+  (define passed-json "[\"first-element\"]")
+
+  (it "returns #f"
+    (expect
+      (extract-by-json '(1) passed-json)
+      (be #f))))
+
 
 (describe "extract data from nested JSON"
   (define passed-json "{\"top-key\" : {\"inner-key\": \"buried-data\"}}")
@@ -54,6 +60,17 @@
 
 
 (describe "extract data from JSON array"
+  (define passed-json "[\"first-data\", \"second-data\"]")
+
+  (define expected-value "second-data")
+
+  (it "returns the expected text"
+    (expect
+      (extract-by-json '(1) passed-json)
+      (be "second-data"))))
+
+
+(describe "extract data from a JSON array inside an object"
   (define passed-json "{\"top-key\" : [\"first-data\", \"second-data\"]}")
 
   (define expected-value "second-data")

@@ -33,9 +33,14 @@
 				 (vector->list object)
 				 string=?))
 
+	(define (array-ref key object)
+	  (and (>= key 0)
+		   (< key (length object))
+		   (list-ref json key)))
+
 	(define (ref key json)
 	  (cond ((symbol? key)  (object-ref key json))
-			((number? key)  (list-ref json key))))
+			((number? key)  (array-ref key json))))
 
 	(if (null? keys)
 		json
