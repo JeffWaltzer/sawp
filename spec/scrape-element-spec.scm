@@ -17,8 +17,28 @@
 
   (it "returns the requested text"
     (expect
-      (scrape-element passed-url passed-xpath passed-regex)
+      (scrape-element passed-url passed-xpath passed-regex '())
       (be "joe-stuff"))))
+
+(describe "scraping the contents of an html/xml element specified by xpath regex, and JSON indices"
+  (define passed-url "junk")
+  (define passed-xpath "//joe")
+  (define passed-regex "\\[(.*)\\]")
+  (define passed-json-indices '(some-key))
+
+  (define (scrape-stub url)
+    "<html><head></head><body><joe>[{\"some-key\" : \"some-value\"}]</joe></body></html>")
+
+  (before #:each
+    (stub! scrape scrape-stub))
+
+  (after #:each
+    (clear-stubs!))
+
+  (it "returns the requested text"
+    (expect
+      (scrape-element passed-url passed-xpath passed-regex passed-json-indices)
+      (be "some-value"))))
 
 
 (describe "extract data from a JSON object"
@@ -28,7 +48,7 @@
 
   (it "returns the expected text"
     (expect
-      (extract-by-json '(the-key) passed-json)
+      (extract-by-json passed-json '(the-key))
       (be "the-data"))))
 
 (describe "return #f if key is missing from a JSON object"
@@ -36,7 +56,7 @@
 
   (it "returns #f"
     (expect
-      (extract-by-json '(wrong-key) passed-json)
+      (extract-by-json passed-json '(wrong-key))
       (be #f))))
 
 (describe "return #f if index is out of bounds for a JSON array"
@@ -44,7 +64,7 @@
 
   (it "returns #f"
     (expect
-      (extract-by-json '(1) passed-json)
+      (extract-by-json passed-json '(1))
       (be #f))))
 
 
@@ -55,7 +75,7 @@
 
   (it "returns the expected text"
     (expect
-      (extract-by-json '(top-key inner-key) passed-json)
+      (extract-by-json passed-json '(top-key inner-key))
       (be "buried-data"))))
 
 
@@ -66,7 +86,7 @@
 
   (it "returns the expected text"
     (expect
-      (extract-by-json '(1) passed-json)
+      (extract-by-json passed-json '(1))
       (be "second-data"))))
 
 
@@ -77,7 +97,7 @@
 
   (it "returns the expected text"
     (expect
-      (extract-by-json '(top-key 1) passed-json)
+      (extract-by-json passed-json '(top-key 1))
       (be "second-data"))))
 
 

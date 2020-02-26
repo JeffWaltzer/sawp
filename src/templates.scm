@@ -17,6 +17,10 @@
     (<input> name: "regex" type: "text")
 
     (<br>)
+    (<label> "JSON index: ")
+    (<input> name: "json-index" type: "text")
+
+    (<br>)
     (<input> name: "submit" type: "submit")))
 
 (define (<scrape-results> response-body)

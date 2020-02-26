@@ -26,7 +26,7 @@
       text)
     1))
 
-(define (extract-by-json keys json-string)
+(define (extract-by-json json-string keys)
   (define (inner-extract-by-json keys json)
 	(define (object-ref key object)
 	  (alist-ref (symbol->string key)
@@ -51,9 +51,18 @@
   (inner-extract-by-json keys
 						 (call-with-input-string json-string json-read)))
 
-(define (scrape-element url xpath regex)
-  (extract-by-regex
-    (extract-by-xpath
-      (scrape url)
-      xpath)
-    regex))
+(define (scrape-element url xpath regex json-indices)
+  (if (null? json-indices)
+	  (extract-by-regex
+	   (extract-by-xpath
+		(scrape url)
+		xpath)
+	   regex)
+
+	  (extract-by-json
+	   (extract-by-regex
+		(extract-by-xpath
+		 (scrape url)
+		 xpath)
+		regex)
+	   json-indices)))
