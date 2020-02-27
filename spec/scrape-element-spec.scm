@@ -5,6 +5,7 @@
   (define passed-url "junk")
   (define passed-xpath "//joe")
   (define passed-regex "\\[(.*)\\]")
+  (define passed-json '(""))
 
   (define (scrape-stub url)
     "<html><head></head><body><joe>[joe-stuff]</joe></body></html>")
@@ -17,7 +18,7 @@
 
   (it "returns the requested text"
     (expect
-      (scrape-element passed-url passed-xpath passed-regex '())
+      (scrape-element passed-url passed-xpath passed-regex passed-json)
       (be "joe-stuff"))))
 
 (describe "scraping the contents of an html/xml element specified by xpath regex, and JSON indices"

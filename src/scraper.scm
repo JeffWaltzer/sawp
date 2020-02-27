@@ -52,7 +52,8 @@
 						 (call-with-input-string json-string json-read)))
 
 (define (scrape-element url xpath regex json-indices)
-  (if (null? json-indices)
+  (if (string=? "" (car json-indices))
+
 	  (extract-by-regex
 	   (extract-by-xpath
 		(scrape url)
