@@ -1,14 +1,15 @@
 (use missbehave missbehave-stubs)
 (declare (uses scraper))
 
-(describe "scraping the contents of an html/xml element specified by xpath and regex"
-  (define passed-url "junk")
-  (define passed-xpath "//joe")
-  (define passed-regex "\\[(.*)\\]")
-  (define passed-json '(""))
 
-  (define (scrape-stub url)
-    "<html><head></head><body><joe>[joe-stuff]</joe></body></html>")
+(define (test-scraping #!key
+					   expected
+					   (html "")
+					   (xpath "")
+					   (regex "")
+					   (json-indices '("")))
+
+  (define (scrape-stub url) html)
 
   (before #:each
     (stub! scrape scrape-stub))
@@ -16,10 +17,19 @@
   (after #:each
     (clear-stubs!))
 
-  (it "returns the requested text"
+  (it "returns the expected text"
     (expect
-      (scrape-element passed-url passed-xpath passed-regex passed-json)
-      (be "joe-stuff"))))
+      (scrape-element "junk-url" xpath regex json-indices)
+      (be expected))))
+
+
+(describe "scraping the contents of an html/xml element specified by xpath and regex"
+  (test-scraping
+   expected: "joe-stuff"
+   html: "<html><head></head><body><joe>[joe-stuff]</joe></body></html>"
+   xpath: "//joe"
+   regex: "\\[(.*)\\]"))
+
 
 (describe "scraping the contents of an html/xml element specified by xpath regex, and JSON indices"
   (define passed-url "junk")
