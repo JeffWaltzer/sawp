@@ -1,8 +1,8 @@
 (use missbehave missbehave-stubs)
 (declare (uses scraper))
 
-
-(define (test-scraping #!key
+(define (test-scraping description
+					   #!key
 					   expected
 					   (html "")
 					   (xpath "")
@@ -11,45 +11,31 @@
 
   (define (scrape-stub url) html)
 
-  (before #:each
-    (stub! scrape scrape-stub))
+  (describe (string-append "scraping " description)
+	(before #:each
+	  (stub! scrape scrape-stub))
 
-  (after #:each
-    (clear-stubs!))
+	(after #:each
+	  (clear-stubs!))
 
-  (it "returns the expected text"
-    (expect
-      (scrape-element "junk-url" xpath regex json-indices)
-      (be expected))))
-
-
-(describe "scraping the contents of an html/xml element specified by xpath and regex"
-  (test-scraping
-   expected: "joe-stuff"
-   html: "<html><head></head><body><joe>[joe-stuff]</joe></body></html>"
-   xpath: "//joe"
-   regex: "\\[(.*)\\]"))
+	(it "returns the expected text"
+	  (expect
+	   (scrape-element "junk-url" xpath regex json-indices)
+	   (be expected)))))
 
 
-(describe "scraping the contents of an html/xml element specified by xpath regex, and JSON indices"
-  (define passed-url "junk")
-  (define passed-xpath "//joe")
-  (define passed-regex "\\[(.*)\\]")
-  (define passed-json-indices '("some-key"))
+(test-scraping "the contents of an html/xml element specified by xpath and regex"
+			   expected: "joe-stuff"
+			   html: "<html><head></head><body><joe>[joe-stuff]</joe></body></html>"
+			   xpath: "//joe"
+			   regex: "\\[(.*)\\]")
 
-  (define (scrape-stub url)
-    "<html><head></head><body><joe>[{\"some-key\" : \"some-value\"}]</joe></body></html>")
-
-  (before #:each
-    (stub! scrape scrape-stub))
-
-  (after #:each
-    (clear-stubs!))
-
-  (it "returns the requested text"
-    (expect
-      (scrape-element passed-url passed-xpath passed-regex passed-json-indices)
-      (be "some-value"))))
+(test-scraping "the contents of an html/xml element specified by xpath regex, and JSON indices"
+			   expected: "some-value"
+			   html: "<html><head></head><body><joe>[{\"some-key\" : \"some-value\"}]</joe></body></html>"
+			   xpath: "//joe"
+			   regex: "\\[(.*)\\]"
+			   json-indices: '("some-key"))
 
 
 (describe "extract data from a JSON object"
