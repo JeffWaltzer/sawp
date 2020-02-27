@@ -52,12 +52,17 @@
 						 (call-with-input-string json-string json-read)))
 
 (define (scrape-element url xpath regex json-indices)
+  (define (have s)
+	(not (string=? "" s)))
+
   (define (have-json-indices)
-	(not (string=? "" (car json-indices))))
+	(have (car json-indices)))
 
   (let ((result (scrape url)))
-	(set! result (extract-by-xpath result xpath))
-	(set! result (extract-by-regex result regex))
+	(if (have xpath)
+		(set! result (extract-by-xpath result xpath)))
+	(if (have regex)
+		(set! result (extract-by-regex result regex)))
 	(if (have-json-indices)
 		(set! result (extract-by-json  result (map string->symbol json-indices))))
 	result))

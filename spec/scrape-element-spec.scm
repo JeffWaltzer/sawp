@@ -24,16 +24,28 @@
 	   (be expected)))))
 
 
+(test-scraping "the contents of an html/xml element specified by xpath, regex, and JSON indices"
+			   expected: "some-value"
+			   html: "<html><head></head><body><joe>[{\"some-key\" : \"some-value\"}]</joe></body></html>"
+			   xpath: "//joe"
+			   regex: "\\[(.*)\\]"
+			   json-indices: '("some-key"))
+
 (test-scraping "the contents of an html/xml element specified by xpath and regex"
 			   expected: "joe-stuff"
 			   html: "<html><head></head><body><joe>[joe-stuff]</joe></body></html>"
 			   xpath: "//joe"
 			   regex: "\\[(.*)\\]")
 
-(test-scraping "the contents of an html/xml element specified by xpath regex, and JSON indices"
+(test-scraping "the contents of an html/xml element specified by xpath and JSON indices"
+			   expected: "some-value"
+			   html: "<html><head></head><body><joe>{\"some-key\" : \"some-value\"}</joe></body></html>"
+			   xpath: "//joe"
+			   json-indices: '("some-key"))
+
+(test-scraping "the contents of an html/xml element specified by regex, and JSON indices"
 			   expected: "some-value"
 			   html: "<html><head></head><body><joe>[{\"some-key\" : \"some-value\"}]</joe></body></html>"
-			   xpath: "//joe"
 			   regex: "\\[(.*)\\]"
 			   json-indices: '("some-key"))
 
