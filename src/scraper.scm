@@ -65,4 +65,4 @@
 		 (scrape url)
 		 xpath)
 		regex)
-	   json-indices)))
+	   (map string->symbol json-indices))))

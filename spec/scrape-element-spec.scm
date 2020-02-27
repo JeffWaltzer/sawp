@@ -24,7 +24,7 @@
   (define passed-url "junk")
   (define passed-xpath "//joe")
   (define passed-regex "\\[(.*)\\]")
-  (define passed-json-indices '(some-key))
+  (define passed-json-indices '("some-key"))
 
   (define (scrape-stub url)
     "<html><head></head><body><joe>[{\"some-key\" : \"some-value\"}]</joe></body></html>")
