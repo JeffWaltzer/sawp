@@ -16,8 +16,8 @@
     (scrape-n-cache url)))
 
 (define (extract-by-xpath html-text xpath)
-  (cadar ((txpath xpath)
-           (html->sxml html-text))))
+  (map cadr ((txpath xpath)
+	     (html->sxml html-text))))
 
 (define (extract-by-regex text regex)
   (irregex-match-substring
@@ -59,10 +59,21 @@
 	(have (car json-indices)))
 
   (let ((result (scrape url)))
+    ;; result is a string here
 	(if (have xpath)
 		(set! result (extract-by-xpath result xpath)))
+
+    ;; result is a list of strings here
 	(if (have regex)
 		(set! result (extract-by-regex result regex)))
+
+    ;; result is ? here
 	(if (have-json-indices)
 		(set! result (extract-by-json  result (map string->symbol json-indices))))
+
+    ;; result is a list of strings here
+
+	(set! result (car result))
+
+	;; result is a string, finally
 	result))
