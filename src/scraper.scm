@@ -66,7 +66,10 @@
 
     ;; result is a list of strings here
 	(if (have regex)
-		(set! result (extract-by-regex result regex)))
+		(set! result
+		  (map (lambda (sub-result)
+				 (extract-by-regex sub-result regex))
+			   result)))
 
     ;; result is ? here
 	(if (have-json-indices)

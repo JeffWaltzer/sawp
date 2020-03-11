@@ -24,7 +24,7 @@
 	   (be expected)))))
 
 
-#;(test-scraping "the contents of an html/xml element specified by xpath, regex, and JSON indices"
+(test-scraping "the contents of an html/xml element specified by xpath, regex, and JSON indices"
 			   expected: "some-value"
 			   html: "<html><head></head><body><joe>[{\"some-key\" : \"some-value\"}]</joe></body></html>"
 			   xpath: "//joe"
