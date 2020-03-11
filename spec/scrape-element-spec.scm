@@ -64,7 +64,7 @@
 			   xpath: "//not-joe")
 
 
-#;(describe "extract data from a JSON object"
+(describe "extract data from a JSON object"
   (define passed-json "{\"the-key\" : \"the-data\"}")
 
   (define expected-value "the-data")
@@ -74,7 +74,7 @@
       (extract-by-json passed-json '(the-key))
       (be "the-data"))))
 
-#;(describe "return #f if key is missing from a JSON object"
+(describe "return #f if key is missing from a JSON object"
   (define passed-json "{\"the-key\" : \"the-data\"}")
 
   (it "returns #f"
@@ -82,7 +82,7 @@
       (extract-by-json passed-json '(wrong-key))
       (be #f))))
 
-#;(describe "return #f if index is out of bounds for a JSON array"
+(describe "return #f if index is out of bounds for a JSON array"
   (define passed-json "[\"first-element\"]")
 
   (it "returns #f"
@@ -91,7 +91,7 @@
       (be #f))))
 
 
-#;(describe "extract data from nested JSON"
+(describe "extract data from nested JSON"
   (define passed-json "{\"top-key\" : {\"inner-key\": \"buried-data\"}}")
 
   (define expected-value "buried-data")
@@ -102,7 +102,7 @@
       (be "buried-data"))))
 
 
-#;(describe "extract data from JSON array"
+(describe "extract data from JSON array"
   (define passed-json "[\"first-data\", \"second-data\"]")
 
   (define expected-value "second-data")
@@ -113,7 +113,7 @@
       (be "second-data"))))
 
 
-#;(describe "extract data from a JSON array inside an object"
+(describe "extract data from a JSON array inside an object"
   (define passed-json "{\"top-key\" : [\"first-data\", \"second-data\"]}")
 
   (define expected-value "second-data")

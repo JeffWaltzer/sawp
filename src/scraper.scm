@@ -20,11 +20,12 @@
 	     (html->sxml html-text))))
 
 (define (extract-by-regex text regex)
-  (irregex-match-substring
+  (list
+   (irregex-match-substring
     (irregex-search
-      (irregex regex)
-      text)
-    1))
+	 (irregex regex)
+	 text)
+    1)))
 
 (define (extract-by-json json-string keys)
   (define (inner-extract-by-json keys json)
