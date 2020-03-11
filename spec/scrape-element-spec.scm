@@ -133,7 +133,7 @@
   (it "returns the requested text"
     (expect
       (extract-by-regex text passed-regex)
-      (be '("joe-stuff")))))
+      (be "joe-stuff"))))
 
 (describe "extract a single element by xpath"
   (define xpath "//joe")

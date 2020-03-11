@@ -20,12 +20,11 @@
 	     (html->sxml html-text))))
 
 (define (extract-by-regex text regex)
-  (list
-   (irregex-match-substring
-    (irregex-search
-	 (irregex regex)
-	 text)
-    1)))
+  (irregex-match-substring
+   (irregex-search
+	(irregex regex)
+	text)
+   1))
 
 (define (extract-by-json json-string keys)
   (define (inner-extract-by-json keys json)
@@ -73,7 +72,12 @@
 
     ;; result is ? here
 	(if (have-json-indices)
-		(set! result (extract-by-json  result (map string->symbol json-indices))))
+		(begin
+		  (set! result
+			(map
+			 (lambda (sub-result)
+			   (extract-by-json sub-result (map string->symbol json-indices)))
+			 result))))
 
     ;; result is a list of strings here
 
