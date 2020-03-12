@@ -1,6 +1,6 @@
 .PHONY : test
 
-SRCS=cache.scm sawp.scm scraper.scm templates.scm
+SRCS=cache.scm pages.scm sawp.scm scraper.scm templates.scm
 OBJS=$(addsuffix .o,$(basename $(SRCS)))
 
 o/%.o:src/%.scm
