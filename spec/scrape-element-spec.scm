@@ -25,40 +25,40 @@
 
 
 (test-scraping "the contents of an html/xml element specified by xpath, regex, and JSON indices"
-			   expected: "some-value"
+			   expected: '("some-value")
 			   html: "<html><head></head><body><joe>[{\"some-key\" : \"some-value\"}]</joe></body></html>"
 			   xpath: "//joe"
 			   regex: "\\[(.*)\\]"
 			   json-indices: '("some-key"))
 
-#;(test-scraping "the contents of an html/xml element specified by xpath and regex"
-			   expected: "joe-stuff"
+(test-scraping "the contents of an html/xml element specified by xpath and regex"
+			   expected: '("joe-stuff")
 			   html: "<html><head></head><body><joe>[joe-stuff]</joe></body></html>"
 			   xpath: "//joe"
 			   regex: "\\[(.*)\\]")
 
-#;(test-scraping "the contents of an html/xml element specified by xpath and JSON indices"
-			   expected: "some-value"
+(test-scraping "the contents of an html/xml element specified by xpath and JSON indices"
+			   expected: '("some-value")
 			   html: "<html><head></head><body><joe>{\"some-key\" : \"some-value\"}</joe></body></html>"
 			   xpath: "//joe"
 			   json-indices: '("some-key"))
 
-#;(test-scraping "the contents of an html/xml element specified by regex, and JSON indices"
-			   expected: "some-value"
+(test-scraping "the contents of an html/xml element specified by regex, and JSON indices"
+			   expected: '("some-value")
 			   html: "<html><head></head><body><joe>[{\"some-key\" : \"some-value\"}]</joe></body></html>"
 			   regex: "\\[(.*)\\]"
 			   json-indices: '("some-key"))
 
-#;(test-scraping "an entire page"
-			   expected: "<html><head></head><body></body></html>"
+(test-scraping "an entire page"
+			   expected: '("<html><head></head><body></body></html>")
 			   html: "<html><head></head><body></body></html>")
 
-#;(test-scraping "the contents of multiple html/xml elements specified by xpath"
+(test-scraping "the contents of multiple html/xml elements specified by xpath"
 			   expected: '("joe-1" "joe-2")
 			   html: "<html><head></head><body><joe>joe-1</joe><joe>joe-2</joe></body></html>"
 			   xpath: "//joe")
 
-#;(test-scraping "the contents of an non-existent html/xml element specified by regex, and JSON indices"
+(test-scraping "the contents of an non-existent html/xml element specified by regex, and JSON indices"
 			   expected: '()
 			   html: "<html><head></head><body><joe>joe-1</joe><joe>joe-2</joe></body></html>"
 			   xpath: "//not-joe")

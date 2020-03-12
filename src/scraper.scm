@@ -61,8 +61,9 @@
   (let ((result (scrape url)))
     ;; result is a string here
 	(if (have xpath)
-		(set! result (extract-by-xpath result xpath)))
-
+		(set! result (extract-by-xpath result xpath))
+		(set! result (list result)))
+	
     ;; result is a list of strings here
 	(if (have regex)
 		(set! result
@@ -81,7 +82,7 @@
 
     ;; result is a list of strings here
 
-	(set! result (car result))
+	#;(set! result (car result))
 
 	;; result is a string, finally
 	result))
