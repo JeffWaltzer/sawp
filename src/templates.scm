@@ -21,6 +21,10 @@
     (<input> name: "json-index" type: "text")
 
     (<br>)
+    (<label> "Name: ")
+    (<input> name: "query-name" type: "text")
+
+    (<br>)
     (<input> name: "submit" type: "submit")))
 
 (define (<scrape-results> response-body)
