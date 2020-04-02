@@ -1,4 +1,4 @@
-(declare (unit pages)
+(declare (unit routes)
          (uses page-handlers))
 (use awful)
 
