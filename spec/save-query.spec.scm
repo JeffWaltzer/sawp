@@ -9,9 +9,8 @@
 
   (it "saves query"
     (expect saved-queries
-            (be '((first-query . (
-                                    "the-url"
-                                    "the-xpath"
-                                    "the-regex"
-                                    "the-json-index"))))))
+            (be '((first-query . ("the-url"
+                                  "the-xpath"
+                                  "the-regex"
+                                  "the-json-index"))))))
   )

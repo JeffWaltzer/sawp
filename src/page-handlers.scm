@@ -1,5 +1,6 @@
 (use awful)
 (use alist-lib)
+
 (declare (unit page-handlers)
          (uses scraper templates))
 
@@ -20,6 +21,7 @@
 (define (main-page-post)
   (unless (string-null? ($ 'query-name))
     (save-query
+     ($ 'query-name)
      ($ 'url)
      ($ 'xpath)
      ($ 'regex)
