@@ -6,6 +6,12 @@
 
 (define (<scraper-controls>)
   (<div>
+   (map symbol->string
+        (map car
+             saved-queries))
+
+   (<hr>)
+
    (<form> method: "POST"
            (<label> "URL: ")
            (<input> name: "url" type: "text")
@@ -27,13 +33,7 @@
            (<input> name: "query-name" type: "text")
 
            (<br>)
-           (<input> name: "submit" type: "submit"))
-
-   (<br>)
-   (<hr>)
-   (map symbol->string
-        (map car
-             saved-queries))))
+           (<input> name: "submit" type: "submit"))))
 
 (define (<scrape-results> response-body)
     `(,(<scraper-controls>)
