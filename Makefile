@@ -7,7 +7,7 @@ o/%.o:src/%.scm
 	csc -c $< -o $@
 
 test:
-	behave spec/*spec.scm
+	behave spec/spec-helper.scm spec/*spec.scm
 
 run: sawp
 	./sawp
