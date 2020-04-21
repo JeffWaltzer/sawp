@@ -14,6 +14,6 @@
   (after #:each
     (clear-stubs!))
 
-  (it "something"
+  (it "saves the query"
     (expect (main-page-post)
             (call save-query (with "the-query-name" "the-url" "the-xpath" "the-regex" "the-json-index") once))))
