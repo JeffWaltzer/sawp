@@ -1,4 +1,4 @@
-(use missbehave missbehave-stubs http-client)
+(use awful missbehave-stubs http-client)
 (declare (uses scraper templates))
 
 (define expected-page-body (make-parameter "some fake body"))
