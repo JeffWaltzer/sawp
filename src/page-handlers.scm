@@ -4,10 +4,6 @@
 (declare (unit page-handlers)
          (uses scraper templates))
 
-(define (debug #!rest args)
-  (with-output-to-file "/dev/tty"
-    (lambda () (apply printf args))))
-
 (define saved-queries '())
 
 (define (save-query name url xpath regex json-index)
@@ -35,3 +31,6 @@
 
   )
 
+(define (saved-query . args)
+  (printf "args: ~S~%" args)
+  (sprintf "args: ~S~%" args))

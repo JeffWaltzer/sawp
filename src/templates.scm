@@ -6,9 +6,13 @@
 
 (define (<scraper-controls>)
   (<div>
-   (map symbol->string
-        (map car
-             saved-queries))
+   (append-map
+    (lambda (saved-query)
+      (<a> #:href (string-append "/saved-queries/"
+                                 (symbol->string
+                                  (car saved-query)))
+           (car saved-query)))
+    saved-queries)
 
    (<hr>)
 
