@@ -10,8 +10,20 @@
                  routing-table)))
    (message (form subject negate)
             (if negate
-                (sprintf "Expected ~A not to have entry ~A" (force subject) entry)
-                (sprintf "Expected ~A to have entry ~A" (force subject) entry)))))
+                (apply string-append
+                       `(,(sprintf "Expected routing-table not to have entry ~A~%" entry)
+                         "routing table:\n"
+                         ,@(map (lambda (routing-table-entry)
+                                  (sprintf "    ~A\n" routing-table-entry))
+                                (force subject))))
+
+                (apply string-append
+                       `(,(sprintf "Expected routing-table to have entry ~A~%" entry)
+                         "routing table:\n"
+                         ,@(map (lambda (routing-table-entry)
+                                  (sprintf "    ~A\n" routing-table-entry))
+                                (force subject))))))))
+
 
 (describe "the routing table"
   (define routing-table '())
@@ -24,7 +36,20 @@
                               (cons `(,path ,handler ,a-method)
                                     routing-table)))
                           method)))
+
+    (stub! path-match (lambda (#!rest args)
+                        args))
+
+    (stub! <string> (lambda (some-string)
+                      `(<string> ,some-string)))
+
+    (stub! <regex> (lambda (some-regex)
+                     `(<regex> ,some-regex)))
+
     (create-pages))
+
+  (after #:each
+    (set! routing-table '()))
 
   (it "has an entry for GET-ing the main page"
     (expect routing-table (to-have-entry `("/"  ,main-page-get GET))))
@@ -33,4 +58,12 @@
     (expect routing-table (to-have-entry `("/"  ,main-page-get  HEAD))))
 
   (it "has an entry for POST-ing the main page"
-    (expect routing-table (to-have-entry `("/"  ,main-page-post POST)))))
+    (expect routing-table (to-have-entry `("/"  ,main-page-post POST))))
+
+  (it "has an entry for GET-ing a saved query"
+    (expect routing-table (to-have-entry `(
+                                           ((<string> "queries") (<regex> (* any)))
+                                           ,queries
+                                           GET))))
+)
+

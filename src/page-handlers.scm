@@ -31,7 +31,7 @@
                      ($ 'url)
                      ($ 'xpath)
                      ($ 'regex)
-                     ($ 'json-index as-list)))
+                     ($ 'json-index as-list))))
 
-  )
-
+(define (queries)
+  #f)
