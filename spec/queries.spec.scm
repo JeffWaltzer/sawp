@@ -14,10 +14,10 @@
 
     (after #:each (clear-queries))
 
-    (it "returns an empty list of queries"
+    (it "returns a list of the queries"
       (expect (queries)
         (be
             `(,(<h3> "Queries")
                ,(<ul>
-                  (<li> (<a> #:href "/yahoo.com" "first one"))
-                )))))))
+                  (<li> (<a> #:href "/queries/first%20one/run" "first one"))))))
+      ) ) )

@@ -7,5 +7,5 @@
   (after #:each (clear-queries))
 
   (it "fails"
-    (expect '(: (* any) "https://yahoo.com" (* any))
+    (expect '(: (* any) "/queries/dummy-query/run" (* any))
             (match-string (serialize-sxml (<scraper-controls>))))))

@@ -39,9 +39,14 @@
 (define (queries)
     `(,(<h3> "Queries") ,(apply <ul>
                            (map (lambda (saved-query)
-                                  (<li> (<a> #:href (first (cdr saved-query)) (symbol->string (car saved-query)))))
-                             saved-queries)))
-)
+                                  (let ((query-name
+                                         (symbol->string (car saved-query))))
+
+                                    (<li> (<a> #:href (string-append "/queries"
+                                                                     query-name
+                                                                     "/run")
+                                               query-name))))
+                                saved-queries))))
 
 (define (run-query)
   #f)
