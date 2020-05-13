@@ -16,6 +16,6 @@
     queries
     method: '(GET))
 
-  #;(define-page (path-match (<string> "queries") (<regex> '(* any)) (<string> "result"))
-    query-result
+  (define-page (path-match (<string> "queries") (<regex> '(* any)) (<string> "result"))
+    run-query
     method: '(GET)))

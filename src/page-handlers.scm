@@ -42,3 +42,6 @@
                                   (<li> (<a> #:href (first (cdr saved-query)) (symbol->string (car saved-query)))))
                              saved-queries)))
 )
+
+(define (run-query)
+  #f)

@@ -62,7 +62,15 @@
 
   (it "has an entry for GET-ing the saved queries"
     (expect routing-table (to-have-entry `(
-                                           ((<string> "queries"))
+                                           (,(<string> "queries"))
                                            ,queries
+                                           GET))))
+
+  (it "has an entry for executing a saved query"
+    (expect routing-table (to-have-entry `(
+                                           (,(<string> "queries")
+                                            ,(<regex> '(* any))
+                                            ,(<string> "result"))
+                                           ,run-query
                                            GET)))))
 
