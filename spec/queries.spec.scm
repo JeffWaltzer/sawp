@@ -10,8 +10,8 @@
 
   (describe "when there is one saved query"
     (before #:each
-      (save-query "first one" "/yahoo.com" "//body" "[A-Z]+" 0)
-    )
+      (save-query "first one" "/yahoo.com" "//body" "[A-Z]+" 0))
+
     (after #:each (clear-queries))
 
     (it "returns an empty list of queries"
