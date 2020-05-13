@@ -6,9 +6,7 @@
 
 (define (<scraper-controls>)
   (<div>
-   (map symbol->string
-        (map car
-             saved-queries))
+   (queries)
 
    (<hr>)
 
