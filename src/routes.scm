@@ -12,6 +12,10 @@
     main-page-post
     method: '(POST))
 
-  (define-page (path-match (<string> "queries") (<regex> '(* any)))
+  (define-page (path-match (<string> "queries"))
     queries
+    method: '(GET))
+
+  #;(define-page (path-match (<string> "queries") (<regex> '(* any)) (<string> "result"))
+    query-result
     method: '(GET)))

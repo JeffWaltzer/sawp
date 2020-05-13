@@ -60,10 +60,9 @@
   (it "has an entry for POST-ing the main page"
     (expect routing-table (to-have-entry `("/"  ,main-page-post POST))))
 
-  (it "has an entry for GET-ing a saved query"
+  (it "has an entry for GET-ing the saved queries"
     (expect routing-table (to-have-entry `(
-                                           ((<string> "queries") (<regex> (* any)))
+                                           ((<string> "queries"))
                                            ,queries
-                                           GET))))
-)
+                                           GET)))))
 
