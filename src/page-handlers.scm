@@ -46,9 +46,10 @@
 
                                     (<li> (<a> #:href (string-append "/queries/"
                                                                      (uri-encode-string query-name)
-                                                                     "/run")
+                                                                     "/result")
                                                query-name))))
                                 saved-queries))))
 
-(define (run-query)
+(define (run-query #!rest args)
+  (debug "run-query: args: ~S~%" args)
   #f)
