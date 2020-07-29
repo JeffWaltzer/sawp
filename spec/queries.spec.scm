@@ -9,6 +9,8 @@
                ,(<ul>))))))
 
   (describe "when there is one saved query"
+    (define query-run-path "/queries/first%20one/result")
+
     (before #:each
       (save-query "first one" "/yahoo.com" "//body" "[A-Z]+" 0))
 
@@ -19,5 +21,7 @@
         (be
             `(,(<h3> "Queries")
                ,(<ul>
-                  (<li> (<a> #:href "/queries/first%20one/run" "first one"))))))
-      ) ) )
+                  (<li> (<a> #:href query-run-path "first one"))) ))))
+
+    (describe "hitting the query's run endpoint"
+      (it "runs the query")) ) )
