@@ -1,6 +1,7 @@
 (use awful)
 (use alist-lib)
 (use html-tags)
+(use uri-common)
 
 (declare (unit page-handlers)
   (uses scraper templates))
@@ -12,8 +13,9 @@
 (define saved-queries '())
 
 (define (save-query name url xpath regex json-index)
-  (alist-set! saved-queries (string->symbol name)
-      `(,url ,xpath ,regex ,json-index)))
+  (alist-set! saved-queries
+              (string->symbol name)
+              `(,url ,xpath ,regex ,json-index)))
 
 (define (clear-queries)
   (set! saved-queries '()))
@@ -42,8 +44,8 @@
                                   (let ((query-name
                                          (symbol->string (car saved-query))))
 
-                                    (<li> (<a> #:href (string-append "/queries"
-                                                                     query-name
+                                    (<li> (<a> #:href (string-append "/queries/"
+                                                                     (uri-encode-string query-name)
                                                                      "/run")
                                                query-name))))
                                 saved-queries))))
