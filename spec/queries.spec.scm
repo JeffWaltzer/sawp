@@ -8,6 +8,16 @@
             `(,(<h3> "Queries")
                ,(<ul>))))))
 
+  (describe "saving a query"
+    (before #:each
+      (save-query "the-query" "http://a-url" "xpath" "regex" 0))
+
+    (after #:each (clear-queries))
+
+    (it "adds it to the saved queries"
+      (expect saved-queries
+              (be `((the-query . ,(make-query "http://a-url" "xpath" "regex" 0)))))))
+
   (describe "when there is one saved query"
     (define query-run-path "/queries/first%20one/result")
 
