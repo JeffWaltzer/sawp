@@ -4,7 +4,7 @@
 (use uri-common)
 
 (declare (unit page-handlers)
-  (uses scraper templates))
+  (uses query scraper templates))
 
 (define (debug #!rest args)
   (with-output-to-file "/dev/tty"
@@ -15,7 +15,7 @@
 (define (save-query name url xpath regex json-index)
   (alist-set! saved-queries
               (string->symbol name)
-              `(,url ,xpath ,regex ,json-index)))
+              (make-query url xpath regex json-index)))
 
 (define (clear-queries)
   (set! saved-queries '()))
@@ -50,6 +50,7 @@
                                                query-name))))
                                 saved-queries))))
 
-(define (run-query #!rest args)
+(define (run-query args)
   (debug "run-query: args: ~S~%" args)
+  (debug "    ~S~%" (irregex-match-substring args 0))
   #f)

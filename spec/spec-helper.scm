@@ -1,3 +1,4 @@
+(load "src/query.scm")
 (load "src/cache.scm")
 (load "src/page-handlers.scm")
 (load "src/routes.scm")
